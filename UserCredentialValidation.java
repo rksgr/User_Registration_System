@@ -56,12 +56,29 @@ public class UserCredentialValidation {
         }
         return mobile_no_Correct;
     }
+    /*
+    Use case 5: Valid Password (Rule 1: Minimum 8 characters required)
+     */
+    public boolean userPasswordRuleFirstVerification(String usr_pwd) {
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{8,}");
+        Matcher matcher = pattern.matcher(usr_pwd);
+        Boolean pwd_Correct = matcher.matches();
+        if (pwd_Correct){
+            System.out.println("Correct Password.");
+        }else {
+            System.out.println("Incorrect Password.");
+            if (usr_pwd.length()<8){
+                System.out.println("Password should not contain less than 8 characters!");
+            }
+        }
+        return pwd_Correct;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
-        uc.userMobileNoVerification("91 9894569120");
-        uc.userMobileNoVerification("789456120");
+        uc.userPasswordRuleFirstVerification("34256![][]");
+
     }
 }
