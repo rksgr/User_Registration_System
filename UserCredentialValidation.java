@@ -30,9 +30,8 @@ public class UserCredentialValidation {
     /*
     Use case 3: Valid Email (3 mandatory parts and 1 optional part)
      */
-
     public boolean userEmailIdVerification(String usr_email_id) {
-        Pattern pattern = Pattern.compile("[a-z0-9]{3,}([.+_-][a-zA-Z0-9]{1,}|[a-zA-Z0-9]*)[@]" +
+        Pattern pattern = Pattern.compile("[a-z0-9]{3,}([.+_-][a-zA-Z0-9]+|[a-zA-Z0-9]*)[@]" +
                 "[a-z0-9]{1,}[.]([a-z]{2,}[.][a-z]{2,}|[a-z]{2,})");
         Matcher matcher = pattern.matcher(usr_email_id);
         Boolean emailCorrect = matcher.matches();
@@ -43,16 +42,26 @@ public class UserCredentialValidation {
         }
         return emailCorrect;
     }
+    /*
+    Use case 4: Valid Mobile No (country code followed by space and 10-digit number)
+     */
+    public boolean userMobileNoVerification(String usr_mobile_no) {
+        Pattern pattern = Pattern.compile("[0-9]{2}[\s][1-9][0-9]{9}");
+        Matcher matcher = pattern.matcher(usr_mobile_no);
+        Boolean mobile_no_Correct = matcher.matches();
+        if (mobile_no_Correct){
+            System.out.println("Correct Mobile Number.");
+        }else {
+            System.out.println("Incorrect Mobile Number.");
+        }
+        return mobile_no_Correct;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
-        uc.userEmailIdVerification("abc+100@gmail.com");
-        uc.userEmailIdVerification("abc-111@abc.net");
-        uc.userEmailIdVerification("abc.100@abc.com.au");
-        uc.userEmailIdVerification("abc.@gmail.com");
-        uc.userEmailIdVerification("abc@abc@gmail.com");
-        uc.userEmailIdVerification("abc..2002@gmail.com");
+        uc.userMobileNoVerification("91 9894569120");
+        uc.userMobileNoVerification("789456120");
     }
 }
