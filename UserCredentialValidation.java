@@ -73,12 +73,29 @@ public class UserCredentialValidation {
         }
         return pwd_Correct;
     }
+    /*
+    Use case 6: Valid Password (Rule 2: At least 1 upper case required)
+     */
+    public boolean userPwdUpperCaseVerification(String usr_pwd) {
+        Pattern pattern = Pattern.compile("(?=.*[A-Z])[a-zA-Z0-9]{8,}");
+        Matcher matcher = pattern.matcher(usr_pwd);
+        Boolean pwd_Correct = matcher.matches();
+        if (pwd_Correct){
+            System.out.println("Correct Password.");
+        }else {
+            System.out.println("Incorrect Password.");
+            System.out.println("Password should contain at least one upper case!");
+        }
+        return pwd_Correct;
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
-        uc.userPasswordRuleFirstVerification("34256![][]");
-
+        uc.userPwdUpperCaseVerification("rftyhoGere");
+        uc.userPwdUpperCaseVerification("r3434wewe");
+        uc.userPwdUpperCaseVerification("EKRHGERJHERH");
+        uc.userPwdUpperCaseVerification("awertuW");
     }
 }
