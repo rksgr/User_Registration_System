@@ -94,6 +94,7 @@ public class UserCredentialValidation {
         }
         return pwd_Correct;
     }
+
     /*
     Use case 8: Valid Password (Rule 4: only 1 special character required) All rules followed
      */
@@ -116,13 +117,43 @@ public class UserCredentialValidation {
         }
         return pwd_Correct;
     }
+
+    /*
+    Use case 9: Should check all email samples provided separately
+     */
+    public boolean userEmailSamplesPassTest() {
+        boolean all_email_samples_passed = false;
+        // create an arraylist containing all the sample emails
+        ArrayList<String> email_id_list = new ArrayList<>();
+        email_id_list.add("abc@yahoo.com");
+        email_id_list.add("abc-100@yahoo.com");
+        email_id_list.add("abc.100@yahoo.com");
+        email_id_list.add("abc111@abc.com");
+        email_id_list.add("abc-100@abc.net");
+        email_id_list.add("abc.100@abc.com.au");
+        email_id_list.add("abc@1.com");
+        email_id_list.add("abc@gmail.com.com");
+        email_id_list.add("abc+100@gmail.com");
+        int cnt_correct_email_id = 0;
+
+        // validate each email id using the email id verification method
+        for (String email_id: email_id_list){
+            if (userEmailIdVerification(email_id)){
+                cnt_correct_email_id++;
+            }
+        }
+        // If all nine email samples pass the test
+        if (cnt_correct_email_id == 9){
+            all_email_samples_passed = true;
+        }
+        return all_email_samples_passed;
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
-        //boolean result = uc.userEmailSamplesPassTest();
-        //System.out.println("All email samples passed"+ result);
-        boolean result = uc.userPwdSplCharVerification("Asddfsdsd1*");
-        System.out.println(result);
+        boolean result = uc.userEmailSamplesPassTest();
+        System.out.println("All email samples passed: "+ result);
     }
 }
