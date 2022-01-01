@@ -1,5 +1,6 @@
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.ArrayList;
 
 public class UserCredentialValidation {
     /*
@@ -32,14 +33,9 @@ public class UserCredentialValidation {
      */
     public boolean userEmailIdVerification(String usr_email_id) {
         Pattern pattern = Pattern.compile("[a-z0-9]{3,}([.+_-][a-zA-Z0-9]+|[a-zA-Z0-9]*)[@]" +
-                "[a-z0-9]{1,}[.]([a-z]{2,}[.][a-z]{2,}|[a-z]{2,})");
+                "[a-z0-9]+[.]([a-z]{2,}[.][a-z]{2,}|[a-z]{2,})");
         Matcher matcher = pattern.matcher(usr_email_id);
         Boolean emailCorrect = matcher.matches();
-        if (emailCorrect){
-            System.out.println("Correct Email.");
-        }else {
-            System.out.println("Incorrect Email.");
-        }
         return emailCorrect;
     }
     /*
@@ -49,11 +45,6 @@ public class UserCredentialValidation {
         Pattern pattern = Pattern.compile("[0-9]{2}[\s][1-9][0-9]{9}");
         Matcher matcher = pattern.matcher(usr_mobile_no);
         Boolean mobile_no_Correct = matcher.matches();
-        if (mobile_no_Correct){
-            System.out.println("Correct Mobile Number.");
-        }else {
-            System.out.println("Incorrect Mobile Number.");
-        }
         return mobile_no_Correct;
     }
     /*
@@ -103,12 +94,35 @@ public class UserCredentialValidation {
         }
         return pwd_Correct;
     }
+    /*
+    Use case 8: Valid Password (Rule 4: only 1 special character required) All rules followed
+     */
+    public boolean userPwdSplCharVerification(String usr_pwd) {
+        int cnt_spl_char = 0;
+        boolean pwd_Correct = false;
+        Pattern pattern1 = Pattern.compile("[~!@#$%^&*()_+-]");
+        Matcher matcher1 = pattern1.matcher(usr_pwd);
 
+        // count the number of special characters
+        while (matcher1.find()){
+            cnt_spl_char++;
+        }
+
+        // If only one special character exists, verify count of other characters else return false
+        if (cnt_spl_char==1){
+            Pattern pattern = Pattern.compile("(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^^&*)(_+-]{8,}");
+            Matcher matcher = pattern.matcher(usr_pwd);
+            pwd_Correct = matcher.matches();
+        }
+        return pwd_Correct;
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
-        uc.userPwdNumericVerification("ej1fhA");
-
+        //boolean result = uc.userEmailSamplesPassTest();
+        //System.out.println("All email samples passed"+ result);
+        boolean result = uc.userPwdSplCharVerification("Asddfsdsd1*");
+        System.out.println(result);
     }
 }
