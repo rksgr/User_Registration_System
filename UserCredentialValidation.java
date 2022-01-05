@@ -68,9 +68,6 @@ public class UserCredentialValidation {
     /*
     Use case 9: Should check all email samples provided separately
      */
-    public boolean userEmailSamplesPassTest() throws EmailIdInvalidException {
-
-    }
     public boolean validateMultiEmails(ValidateEntries validateentries, String usr_email_id){
         boolean all_email_samples_correct = validateentries.entryValidation(usr_email_id);
         return all_email_samples_correct;
@@ -80,6 +77,9 @@ public class UserCredentialValidation {
         System.out.println("Welcome to BridgeLabz!");
         System.out.println("Today we shall verify credentials of a user.");
         UserCredentialValidation uc = new UserCredentialValidation();
+
+        // lambda expression to ensure first name starts with capital letters
+        // and has minimum three characters
         ValidateEntries validatefirstname = (usr_first_name) -> {
             Pattern pattern = Pattern.compile("[A-Z][a-z]{2,}");
             Matcher matcher = pattern.matcher(usr_first_name);
@@ -89,6 +89,8 @@ public class UserCredentialValidation {
         boolean result1 = uc.validateFirst(validatefirstname, "Mukund");
         System.out.println("result1:" + result1);
 
+        // lambda expression to ensure last name starts with capital letters
+        // and has minimum three characters
         ValidateEntries validatelastname = (usr_last_name) -> {
             Pattern pattern = Pattern.compile("[A-Z][a-z]{2,}");
             Matcher matcher = pattern.matcher(usr_last_name);
@@ -98,6 +100,7 @@ public class UserCredentialValidation {
         boolean result2 = uc.validateLast(validatelastname, "Naravane");
         System.out.println("result2:" + result2);
 
+        // lambda expression to ensure valid email id
         ValidateEntries validateemailid = (usr_email_id) -> {
             Pattern pattern = Pattern.compile("[a-z0-9]{3,}([.+_-][a-zA-Z0-9]+|[a-zA-Z0-9]*)[@]" +
                     "[a-z0-9]+[.]([a-z]{2,}[.][a-z]{2,}|[a-z]{2,})");
@@ -108,6 +111,8 @@ public class UserCredentialValidation {
         boolean result3 = uc.validateEmail(validateemailid, "mukund@aravane.com");
         System.out.println("result3:" + result3);
 
+        // lambda expression to ensure mobile number starts with two digit country code
+        // followed by ten-digit number.
         ValidateEntries validatemobilenum = (usr_mobile_no) -> {
             Pattern pattern = Pattern.compile("[0-9]{2}[\s][1-9][0-9]{9}");
             Matcher matcher = pattern.matcher(usr_mobile_no);
@@ -117,7 +122,7 @@ public class UserCredentialValidation {
         boolean result4 = uc.validateMobileNo(validatemobilenum, "91 1234567890");
         System.out.println("result4:" + result4);
 
-
+        // lambda expression to ensure password has minimum 8 characters
         ValidateEntries validatepwdminchar = (usr_pwd) -> {
             Pattern pattern = Pattern.compile("[a-zA-Z0-9]{8,}");
             Matcher matcher = pattern.matcher(usr_pwd);
@@ -127,6 +132,7 @@ public class UserCredentialValidation {
         boolean result5 = uc.validatePasswdMinChar(validatepwdminchar, "abcdefghij");
         System.out.println("result5:" + result5);
 
+        // lambda expression to ensure password has at least one upper case character
         ValidateEntries validatepwdUpperchar = (usr_pwd) -> {
             Pattern pattern = Pattern.compile("(?=.*[A-Z])[a-zA-Z0-9]{8,}");
             Matcher matcher = pattern.matcher(usr_pwd);
@@ -136,6 +142,7 @@ public class UserCredentialValidation {
         boolean result6 = uc.validatePasswdUpperCase(validatepwdUpperchar, "abcdefghiJ");
         System.out.println("result6:" + result6);
 
+        // lambda expression to ensure password has at least one numeric character
         ValidateEntries validatepwdNumeric = (usr_pwd) -> {
             Pattern pattern = Pattern.compile("(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}");
             Matcher matcher = pattern.matcher(usr_pwd);
@@ -145,7 +152,7 @@ public class UserCredentialValidation {
         boolean result7 = uc.validatePasswdNumeric(validatepwdNumeric, "abcdefgh0J");
         System.out.println("result7:" + result7);
 
-
+        // lambda expression to ensure password has only one special character
         ValidateEntries validatepwdsplchar = (usr_pwd) -> {
             int cnt_spl_char = 0;
             boolean pwd_correct = false;
@@ -180,21 +187,17 @@ public class UserCredentialValidation {
         email_id_list.add("abc@gmail.com.com");
         email_id_list.add("abc+100@gmail.com");
 
+        // lambda expression to validate all email ids given in arraylist above
         email_id_list.forEach( (email_id) -> {
             boolean all_email_samples_correct = false;
             int cnt_correct_email_id = 0;
             boolean result = uc.validateEmail(validateemailid, email_id);
+            // If email sample correct
             if (result) {
-                cnt_correct_email_id++;
-            }
-            // If all nine email samples pass the test
-            if (cnt_correct_email_id == 9) {
-                System.out.println("All email samples correct: ");
+                System.out.println("Given email sample correct.");
             } else {
-                System.out.println("All email samples not correct: ");
+                System.out.println("Given email sample not correct.");
             }
-        };)
-        //boolean result9 = uc.validateMultiEmails(validatepwdNumeric, "abcdefgh0J");
-        //System.out.println("result9:" + result9);
+        });
     }
 }
